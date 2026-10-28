@@ -12,6 +12,9 @@ namespace WPSimpleAccessControl;
 use WPSimpleAccessControl\Admin\BlockEditor\PanelRegistrar;
 use WPSimpleAccessControl\Admin\BlockEditor\RestController;
 use WPSimpleAccessControl\Admin\BlockEditor\RuleSynchronizer;
+use WPSimpleAccessControl\Blocks\BlockVisibility;
+use WPSimpleAccessControl\Blocks\ExcerptGuard;
+use WPSimpleAccessControl\Blocks\TeaserRenderer;
 use WPSimpleAccessControl\Domain\AccessPolicy;
 use WPSimpleAccessControl\Frontend\CacheHeaders;
 use WPSimpleAccessControl\Frontend\Gate;
@@ -140,6 +143,27 @@ final class Plugin {
 		$this->container->get( CacheHeaders::class )->register();
 		$this->container->get( LoginHandler::class )->register();
 		$this->container->get( Gate::class )->register();
+
+		// Visibilità per singolo blocco, teaser e protezione degli estratti automatici.
+		$this->container->set(
+			TeaserRenderer::class,
+			static fn( Container $c ): TeaserRenderer => new TeaserRenderer( $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			BlockVisibility::class,
+			static fn( Container $c ): BlockVisibility => new BlockVisibility(
+				$c->get( AccessPolicy::class ),
+				$c->get( TeaserRenderer::class ),
+				$c->get( CacheHeaders::class )
+			)
+		);
+		$this->container->set(
+			ExcerptGuard::class,
+			static fn( Container $c ): ExcerptGuard => new ExcerptGuard( $c->get( BlockVisibility::class ) )
+		);
+
+		$this->container->get( BlockVisibility::class )->register();
+		$this->container->get( ExcerptGuard::class )->register();
 
 		// Carica le traduzioni del plugin.
 		add_action( 'init', array( $this, 'load_textdomain' ) );

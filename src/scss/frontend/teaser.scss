@@ -1,0 +1,18 @@
+// Blocco BEM: .wpsac-teaser
+// Messaggio mostrato al posto di un blocco riservato.
+// Dipendenze: _variables.scss
+
+@use "variables" as *;
+
+.wpsac-teaser {
+	margin: 1rem 0;
+	padding: 0.75rem 1rem;
+	border-left: 4px solid $wpsac-accent;
+	border-radius: $wpsac-radius;
+	background: rgba($wpsac-accent, 0.08);
+
+	// Il testo viene da wpautop(): niente margini extra sull'ultimo paragrafo.
+	> :last-child {
+		margin-bottom: 0;
+	}
+}

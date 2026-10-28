@@ -1,0 +1,36 @@
+// Blocco BEM: .wpsac-block-indicator
+// Indicatore visivo, nell'editor, dei blocchi con accesso limitato.
+// Modificatori: --logged-in, --logged-out.
+// Non cambia il layout: niente wrapper, solo bordo (outline) e un badge
+// posizionato in modo assoluto. Il testo del badge arriva da data-wpsac-label
+// (tradotto lato JS). Il blocco dell'editor è già position: relative.
+
+$wpsac-logged-in: #d97706;
+$wpsac-logged-out: #2563eb;
+
+.wpsac-block-indicator {
+	// Variabile impostata dal modificatore e usata da bordo e badge.
+	--wpsac-indicator-color: #{$wpsac-logged-in};
+
+	outline: 1px dashed var(--wpsac-indicator-color);
+	outline-offset: 2px;
+
+	&::before {
+		content: attr(data-wpsac-label);
+		position: absolute;
+		top: -1px;
+		right: 0;
+		z-index: 2;
+		padding: 1px 6px;
+		border-radius: 0 0 0 3px;
+		background: var(--wpsac-indicator-color);
+		color: #fff;
+		font-size: 10px;
+		line-height: 1.6;
+		pointer-events: none;
+	}
+
+	&--logged-out {
+		--wpsac-indicator-color: #{$wpsac-logged-out};
+	}
+}

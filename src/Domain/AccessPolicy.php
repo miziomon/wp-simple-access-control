@@ -19,6 +19,21 @@ namespace WPSimpleAccessControl\Domain;
 class AccessPolicy {
 
 	/**
+	 * Modalità di visibilità di un blocco: visibile a tutti.
+	 */
+	public const MODE_ALL = 'all';
+
+	/**
+	 * Modalità di visibilità di un blocco: solo utenti loggati (con ruoli opzionali).
+	 */
+	public const MODE_LOGGED_IN = 'logged_in';
+
+	/**
+	 * Modalità di visibilità di un blocco: solo visitatori non loggati.
+	 */
+	public const MODE_LOGGED_OUT = 'logged_out';
+
+	/**
 	 * Verifica l'accesso di un utente a un contenuto protetto per ruolo.
 	 *
 	 * - non loggato                       => DENIED_NOT_LOGGED
@@ -50,5 +65,27 @@ class AccessPolicy {
 		}
 
 		return AccessOutcome::DENIED_ROLE;
+	}
+
+	/**
+	 * Verifica se un utente può vedere un singolo blocco.
+	 *
+	 * - `all`        => sempre
+	 * - `logged_in`  => stesse regole dei contenuti (admin sempre, ruoli opzionali)
+	 * - `logged_out` => solo chi non è loggato; l'admin loggato NON lo vede
+	 * - altro        => mai (fail closed: un valore sconosciuto non deve esporre contenuto)
+	 *
+	 * @param string            $mode  Una delle costanti MODE_*.
+	 * @param array<int,string> $roles Slug dei ruoli ammessi (usati solo con `logged_in`).
+	 * @param \WP_User          $user  Utente corrente.
+	 * @return bool
+	 */
+	public function can_view_block( string $mode, array $roles, \WP_User $user ): bool {
+		return match ( $mode ) {
+			self::MODE_ALL        => true,
+			self::MODE_LOGGED_OUT => 0 === $user->ID,
+			self::MODE_LOGGED_IN  => AccessOutcome::GRANTED === $this->check( $user, $roles ),
+			default               => false,
+		};
 	}
 }
