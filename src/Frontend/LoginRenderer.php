@@ -99,9 +99,10 @@ class LoginRenderer {
 	 * @return void
 	 */
 	private function replace_content( string $form, \WP_Post $post ): void {
+		// Senza tipo sul parametro: alcuni plugin chiamano `the_content` con null e un TypeError qui darebbe un fatal.
 		add_filter(
 			'the_content',
-			static fn( string $content ): string => ( is_main_query() && get_the_ID() === $post->ID ) ? $form : $content,
+			static fn( $content ) => ( is_main_query() && get_the_ID() === $post->ID ) ? $form : $content,
 			PHP_INT_MAX
 		);
 

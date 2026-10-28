@@ -62,13 +62,17 @@ class ExcerptGuard {
 	/**
 	 * Calcola l'estratto automatico sul contenuto privo dei blocchi non visibili.
 	 *
-	 * @param string   $excerpt Estratto scritto a mano (vuoto se va generato in automatico).
-	 * @param \WP_Post $post    Contenuto di cui serve l'estratto.
+	 * @param mixed $excerpt Estratto scritto a mano (vuoto se va generato in automatico).
+	 * @param mixed $post    Contenuto di cui serve l'estratto. Molti temi e plugin chiamano il filtro
+	 *                       con il solo primo argomento: in quel caso si usa il post corrente.
 	 * @return string
 	 */
-	public function filter_excerpt( string $excerpt, \WP_Post $post ): string {
+	public function filter_excerpt( $excerpt, $post = null ): string {
+		$excerpt = (string) $excerpt;
+		$post    = $post instanceof \WP_Post ? $post : get_post();
+
 		// Un estratto scritto a mano è una scelta dell'autore: non si tocca.
-		if ( $this->busy || '' !== trim( $excerpt ) ) {
+		if ( ! $post instanceof \WP_Post || $this->busy || '' !== trim( $excerpt ) ) {
 			return $excerpt;
 		}
 

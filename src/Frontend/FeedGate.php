@@ -60,11 +60,12 @@ class FeedGate {
 	/**
 	 * Sostituisce il testo completo con l'estratto e un link "Read more".
 	 *
-	 * @param string $content Contenuto del feed.
+	 * @param mixed $content Contenuto del feed (alcuni plugin chiamano il filtro con null).
 	 * @return string
 	 */
-	public function filter_content( string $content ): string {
-		$post = get_post();
+	public function filter_content( $content ): string {
+		$content = (string) $content;
+		$post    = get_post();
 
 		if ( ! $post instanceof \WP_Post || ! $this->access->is_protected( $post->ID ) ) {
 			return $content;
@@ -80,11 +81,12 @@ class FeedGate {
 	/**
 	 * Aggiunge il link "Read more" all'estratto dei contenuti protetti.
 	 *
-	 * @param string $excerpt Estratto del feed.
+	 * @param mixed $excerpt Estratto del feed.
 	 * @return string
 	 */
-	public function filter_excerpt( string $excerpt ): string {
-		$post = get_post();
+	public function filter_excerpt( $excerpt ): string {
+		$excerpt = (string) $excerpt;
+		$post    = get_post();
 
 		if ( ! $post instanceof \WP_Post || ! $this->access->is_protected( $post->ID ) ) {
 			return $excerpt;

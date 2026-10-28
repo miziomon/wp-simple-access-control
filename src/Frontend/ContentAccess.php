@@ -92,6 +92,45 @@ class ContentAccess {
 	}
 
 	/**
+	 * Toglie dagli argomenti di una WP_Query gli ID indicati.
+	 *
+	 * Non basta riempire `post__not_in`: se la query ha anche `post__in` (la REST API lo imposta
+	 * con `?include=`) WP_Query ignora `post__not_in`, e il contenuto nascosto uscirebbe lo stesso.
+	 * Quindi gli ID si tolgono anche da `post__in`; se non ne resta nessuno si usa `0`, perché
+	 * un array vuoto significherebbe "nessun filtro".
+	 *
+	 * @param array<string,mixed> $args   Argomenti (o variabili) della query.
+	 * @param array<int,int>      $hidden ID da escludere.
+	 * @return array<string,mixed> Gli argomenti con `post__in` e `post__not_in` aggiornati.
+	 */
+	public function exclude_from_query( array $args, array $hidden ): array {
+		if ( array() === $hidden ) {
+			return $args;
+		}
+
+		$included = $this->to_ids( $args['post__in'] ?? null );
+
+		if ( array() !== $included ) {
+			$remaining        = array_values( array_diff( $included, $hidden ) );
+			$args['post__in'] = array() === $remaining ? array( 0 ) : $remaining;
+		}
+
+		$args['post__not_in'] = array_values( array_unique( array_merge( $this->to_ids( $args['post__not_in'] ?? null ), $hidden ) ) );
+
+		return $args;
+	}
+
+	/**
+	 * Converte un valore di query in un elenco di interi (valori non array o vuoti diventano un array vuoto).
+	 *
+	 * @param mixed $value Valore di `post__in` o `post__not_in`.
+	 * @return array<int,int>
+	 */
+	private function to_ids( mixed $value ): array {
+		return is_array( $value ) ? array_values( array_map( 'intval', $value ) ) : array();
+	}
+
+	/**
 	 * Regola attiva di un contenuto, se esiste.
 	 *
 	 * @param int $post_id ID del contenuto.

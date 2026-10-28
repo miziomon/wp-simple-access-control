@@ -103,11 +103,8 @@ class RestGate {
 			fn( int $post_id ): bool => ! $this->can_edit_in_editor( $post_id, $request )
 		);
 
-		if ( array() !== $hidden ) {
-			$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), $hidden );
-		}
-
-		return $args;
+		// Gestisce anche `?include=` (post__in), che altrimenti farebbe ignorare l'esclusione.
+		return $this->access->exclude_from_query( $args, array_values( $hidden ) );
 	}
 
 	/**

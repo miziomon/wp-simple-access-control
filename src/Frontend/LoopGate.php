@@ -60,10 +60,12 @@ class LoopGate {
 	/**
 	 * Sostituisce il testo di un contenuto riservato con l'estratto e una nota.
 	 *
-	 * @param string $content Contenuto del post.
+	 * @param mixed $content Contenuto del post (alcuni plugin chiamano il filtro con null).
 	 * @return string
 	 */
-	public function filter_content( string $content ): string {
+	public function filter_content( $content ): string {
+		$content = (string) $content;
+
 		// Feed e REST hanno i loro gate; nel back office il contenuto serve a chi lo modifica.
 		if ( $this->busy || is_feed() || ( is_admin() && ! wp_doing_ajax() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return $content;
@@ -118,10 +120,15 @@ class LoopGate {
 			return;
 		}
 
-		$hidden = $this->access->hidden_ids();
+		$vars = $this->access->exclude_from_query(
+			array(
+				'post__in'     => $query->get( 'post__in', array() ),
+				'post__not_in' => $query->get( 'post__not_in', array() ),
+			),
+			$this->access->hidden_ids()
+		);
 
-		if ( array() !== $hidden ) {
-			$query->set( 'post__not_in', array_merge( (array) $query->get( 'post__not_in' ), $hidden ) );
-		}
+		$query->set( 'post__in', $vars['post__in'] ?? array() );
+		$query->set( 'post__not_in', $vars['post__not_in'] ?? array() );
 	}
 }
