@@ -14,7 +14,11 @@
 		"lint:css": "wp-scripts lint-style \"src/scss/**/*.scss\"",
 		"format": "wp-scripts format src/js src/scss",
 		"env": "wp-env",
-		"i18n:pot": "wp-env run cli wp i18n make-pot wp-content/plugins/wp-simple-access-control wp-content/plugins/wp-simple-access-control/languages/wp-simple-access-control.pot --domain=wp-simple-access-control --exclude=node_modules,vendor,build"
+		"env:multisite": "wp-env --config=tools/multisite/.wp-env.json",
+		"i18n:pot": "wp-env run cli wp i18n make-pot wp-content/plugins/wp-simple-access-control wp-content/plugins/wp-simple-access-control/languages/wp-simple-access-control.pot --domain=wp-simple-access-control --exclude=node_modules,vendor,build,tools",
+		"i18n:po": "wp-env run cli wp i18n update-po wp-content/plugins/wp-simple-access-control/languages/wp-simple-access-control.pot wp-content/plugins/wp-simple-access-control/languages",
+		"i18n:mo": "wp-env run cli wp i18n make-mo wp-content/plugins/wp-simple-access-control/languages",
+		"i18n:json": "wp-env run cli wp i18n make-json wp-content/plugins/wp-simple-access-control/languages --no-purge --use-map=wp-content/plugins/wp-simple-access-control/tools/i18n-map.json"
 	},
 	"devDependencies": {
 		"@wordpress/env": "^12.0.0",

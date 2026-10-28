@@ -169,6 +169,27 @@ final class Schema {
 	}
 
 	/**
+	 * Aggiunge le tabelle del plugin a quelle che WordPress elimina insieme a un sito (filtro `wpmu_drop_tables`).
+	 *
+	 * Il core elimina solo le proprie tabelle: senza questo filtro, cancellando un sito
+	 * della rete le tabelle del plugin resterebbero orfane nel database.
+	 *
+	 * @param array<int|string,string> $tables  Tabelle che verranno eliminate.
+	 * @param int                      $site_id ID del sito che si sta eliminando.
+	 * @return array<int|string,string>
+	 */
+	public static function drop_tables_with_site( array $tables, int $site_id ): array {
+		global $wpdb;
+
+		$prefix = $wpdb->get_blog_prefix( $site_id );
+
+		$tables[] = $prefix . 'wpsac_access_rules';
+		$tables[] = $prefix . 'wpsac_access_logs';
+
+		return $tables;
+	}
+
+	/**
 	 * Passa al sito indicato, se diverso da quello corrente.
 	 *
 	 * @param int|null $blog_id ID del sito.

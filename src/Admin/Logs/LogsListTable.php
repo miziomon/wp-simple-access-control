@@ -175,7 +175,7 @@ final class LogsListTable extends \WP_List_Table {
 		$link = $post instanceof \WP_Post ? get_edit_post_link( $post->ID ) : null;
 
 		if ( null === $link || '' === $link ) {
-			/* translators: %d: ID of a content that no longer exists. */
+			/* translators: %d: ID of a content or user that no longer exists. */
 			return esc_html( 0 === $item->post_id ? '—' : sprintf( __( '#%d (deleted)', 'wp-simple-access-control' ), $item->post_id ) );
 		}
 
@@ -196,7 +196,7 @@ final class LogsListTable extends \WP_List_Table {
 		$user = get_userdata( $item->user_id );
 
 		if ( false === $user ) {
-			/* translators: %d: ID of a user that no longer exists. */
+			/* translators: %d: ID of a content or user that no longer exists. */
 			return esc_html( sprintf( __( '#%d (deleted)', 'wp-simple-access-control' ), $item->user_id ) );
 		}
 

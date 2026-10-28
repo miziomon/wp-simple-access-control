@@ -81,9 +81,28 @@ class LogRetention {
 	/**
 	 * Rimuove l'evento pianificato (alla disattivazione del plugin).
 	 *
+	 * Con la disattivazione di rete l'evento va tolto da ogni sito: il cron è per sito.
+	 *
+	 * @param bool $network_wide True se il plugin è disattivato per tutta la rete.
 	 * @return void
 	 */
-	public static function unschedule(): void {
+	public static function unschedule( bool $network_wide = false ): void {
+		if ( is_multisite() && $network_wide ) {
+			$site_ids = get_sites(
+				array(
+					'fields' => 'ids',
+					'number' => 0,
+				)
+			);
+
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( (int) $site_id );
+				wp_clear_scheduled_hook( self::HOOK );
+				restore_current_blog();
+			}
+			return;
+		}
+
 		wp_clear_scheduled_hook( self::HOOK );
 	}
 }

@@ -117,6 +117,9 @@ final class Plugin {
 		// Multisite: crea le tabelle nei nuovi siti se il plugin è attivo sulla rete.
 		add_action( 'wp_initialize_site', array( Schema::class, 'on_new_site' ), 20 );
 
+		// Multisite: eliminando un sito si eliminano anche le tabelle del plugin.
+		add_filter( 'wpmu_drop_tables', array( Schema::class, 'drop_tables_with_site' ), 10, 2 );
+
 		// Pannello Gutenberg: meta REST, sincronizzazione con la tabella ed endpoint dei ruoli.
 		$this->container->set( PanelRegistrar::class, static fn(): PanelRegistrar => new PanelRegistrar() );
 		$this->container->set( RestController::class, static fn(): RestController => new RestController() );

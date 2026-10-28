@@ -1,0 +1,7 @@
+{
+	"src/js/editor/blocks/BlockAccessControls.js": [ "build/editor.js" ],
+	"src/js/editor/blocks/constants.js": [ "build/editor.js" ],
+	"src/js/editor/components/AccessPanel.js": [ "build/editor.js" ],
+	"src/js/editor/components/LoginMessageField.js": [ "build/editor.js" ],
+	"src/js/editor/components/RolesSelector.js": [ "build/editor.js" ]
+}
