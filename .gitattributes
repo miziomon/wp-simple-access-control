@@ -1,0 +1,7 @@
+# Normalizza gli a-capo: nel repo e in checkout sempre LF (coerente con .editorconfig e PHPCS)
+* text=auto eol=lf
+
+# File binari
+*.png binary
+*.jpg binary
+*.mo binary

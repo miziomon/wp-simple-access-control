@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<ruleset name="WP Simple Access Control" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	<description>Ruleset PHPCS di WP Simple Access Control (WordPress + WordPress-Extra + WordPress-Docs).</description>
+
+	<!-- File analizzati -->
+	<file>wp-simple-access-control.php</file>
+	<file>uninstall.php</file>
+	<file>src</file>
+	<file>templates</file>
+
+	<!-- Cartelle escluse -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/build/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="ps"/>
+	<arg name="parallel" value="8"/>
+
+	<!-- Ruleset di base -->
+	<rule ref="WordPress"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+
+	<!-- Versione minima di WordPress supportata -->
+	<config name="minimum_supported_wp_version" value="6.4"/>
+	<config name="testVersion" value="8.1-"/>
+
+	<!-- Text domain delle stringhe traducibili -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-simple-access-control"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Prefissi ammessi per funzioni, classi, hook e variabili globali -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="wpsac"/>
+				<element value="WPSimpleAccessControl"/>
+				<element value="WPSAC"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		Le classi sono in PSR-4 (src/Percorso/NomeClasse.php), quindi il nome file
+		non segue la convenzione class-nome-classe.php di WordPress.
+	-->
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+
+	<!-- Le tabelle custom richiedono query dirette: l'uso e' sempre con prepare() -->
+	<rule ref="WordPress.DB.DirectDatabaseQuery.DirectQuery">
+		<exclude-pattern>src/Infrastructure/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.DB.DirectDatabaseQuery.NoCaching">
+		<exclude-pattern>src/Infrastructure/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.DB.DirectDatabaseQuery.SchemaChange">
+		<exclude-pattern>src/Infrastructure/Database/*</exclude-pattern>
+	</rule>
+</ruleset>

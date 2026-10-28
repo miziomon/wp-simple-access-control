@@ -1,0 +1,23 @@
+{
+	"name": "wp-simple-access-control",
+	"version": "0.1.0",
+	"description": "Restrict access to single contents and to single blocks by user role.",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"engines": {
+		"node": ">=22.22.2"
+	},
+	"scripts": {
+		"build": "wp-scripts build editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss",
+		"start": "wp-scripts start editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss",
+		"lint:js": "wp-scripts lint-js src/js",
+		"lint:css": "wp-scripts lint-style \"src/scss/**/*.scss\"",
+		"format": "wp-scripts format src/js src/scss",
+		"env": "wp-env",
+		"i18n:pot": "wp-env run cli wp i18n make-pot wp-content/plugins/wp-simple-access-control wp-content/plugins/wp-simple-access-control/languages/wp-simple-access-control.pot --domain=wp-simple-access-control --exclude=node_modules,vendor,build"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^12.0.0",
+		"@wordpress/scripts": "^37.0.0"
+	}
+}

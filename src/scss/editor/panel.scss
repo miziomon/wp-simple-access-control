@@ -1,0 +1,30 @@
+// Blocco BEM: .wpsac-panel
+// Pannello "Access control" nella sidebar del documento.
+// Elementi: __roles, __legend, __help, __logs-link.
+// Nessuna dipendenza: usa i token CSS dell'editor WordPress.
+
+.wpsac-panel {
+
+	&__roles {
+		margin: 16px 0 0;
+		padding: 0;
+		border: 0;
+	}
+
+	&__legend {
+		margin-bottom: 8px;
+		padding: 0;
+		font-weight: 600;
+	}
+
+	&__help {
+		margin: 8px 0 16px;
+		color: var(--wp-components-color-gray-700, #757575);
+		font-size: 12px;
+	}
+
+	&__logs-link {
+		display: inline-block;
+		margin-top: 12px;
+	}
+}

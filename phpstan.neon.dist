@@ -1,0 +1,11 @@
+parameters:
+    level: 6
+    # Il codice gira su PHP 8.1+: evita sintassi introdotta da versioni successive
+    phpVersion: 80100
+    paths:
+        - src/
+        - wp-simple-access-control.php
+        - uninstall.php
+    bootstrapFiles:
+        - vendor/szepeviktor/phpstan-wordpress/bootstrap.php
+        - phpstan-bootstrap.php

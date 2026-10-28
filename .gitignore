@@ -1,0 +1,28 @@
+# Dipendenze
+/vendor/
+/node_modules/
+
+# Output di wp-scripts
+/build/
+
+# Cache degli strumenti di analisi
+.phpcs.xml
+phpcs.xml
+.phpunit.result.cache
+.phpstan-cache/
+composer.phar
+
+# Ambiente locale
+.wp-env.override.json
+.env
+*.log
+
+# Editor / IDE
+.idea/
+.vscode/
+*.sublime-*
+.DS_Store
+Thumbs.db
+
+# Impostazioni locali di Claude Code
+.claude/settings.local.json
