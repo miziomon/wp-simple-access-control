@@ -63,6 +63,23 @@ class LoginRenderer {
 
 		$form = Template::render( 'login-form', $this->build_context( $reason, $rule, $post ) );
 
+		// Modalità "pagina autonoma": documento HTML minimale, senza il tema.
+		if ( 'full_template' === $this->settings->get( 'login_form_mode' ) ) {
+			$page = Template::render(
+				'login-page',
+				array(
+					'form'      => $form,
+					/* translators: %s: site name. */
+					'title'     => sprintf( __( 'Log in - %s', 'wp-simple-access-control' ), get_bloginfo( 'name' ) ),
+					'site_name' => get_bloginfo( 'name' ),
+					'home_url'  => home_url( '/' ),
+				)
+			);
+
+			echo $page; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML già escapato dai template.
+			exit;
+		}
+
 		if ( wp_is_block_theme() ) {
 			$this->replace_content( $form, $post );
 			return;

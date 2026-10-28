@@ -35,6 +35,7 @@ use WPSimpleAccessControl\Logging\AccessLogger;
 use WPSimpleAccessControl\Logging\LogRetention;
 use WPSimpleAccessControl\Security\IpResolver;
 use WPSimpleAccessControl\Security\LoginRateLimiter;
+use WPSimpleAccessControl\Security\TwoFactorIntegration;
 use WPSimpleAccessControl\Support\Settings;
 
 /**
@@ -185,8 +186,18 @@ final class Plugin {
 			static fn( Container $c ): LoopGate => new LoopGate( $c->get( ContentAccess::class ) )
 		);
 
+		$this->container->set(
+			TwoFactorIntegration::class,
+			static fn( Container $c ): TwoFactorIntegration => new TwoFactorIntegration(
+				$c->get( Settings::class ),
+				$c->get( AccessLogger::class ),
+				$c->get( ContentAccess::class )
+			)
+		);
+
 		$this->container->get( CacheHeaders::class )->register();
 		$this->container->get( LoginHandler::class )->register();
+		$this->container->get( TwoFactorIntegration::class )->register();
 		$this->container->get( Gate::class )->register();
 		$this->container->get( RestGate::class )->register();
 		$this->container->get( FeedGate::class )->register();

@@ -1,0 +1,52 @@
+// Blocco BEM: .wpsac-login-page
+// Pagina di login autonoma (modalità "Standalone page").
+// Elementi: __main, __title, __home, __card.
+// Dipendenze: _variables.scss; il form dentro __card è il blocco .wpsac-login.
+
+@use "variables" as *;
+
+.wpsac-login-page {
+	margin: 0;
+	background: #f0f0f1;
+	color: #1d2327;
+	font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, sans-serif;
+	line-height: 1.5;
+
+	&__main {
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 100vh;
+		padding: 2rem 1rem;
+	}
+
+	&__title {
+		margin: 0 0 1.5rem;
+		font-size: 1.5rem;
+		font-weight: 600;
+	}
+
+	&__home {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	&__card {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: $wpsac-max-width;
+		padding: 1.5rem;
+		border: 1px solid $wpsac-border;
+		border-radius: $wpsac-radius;
+		background: #fff;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+		// Dentro la card il form non ha bisogno di margini propri.
+		.wpsac-login {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
