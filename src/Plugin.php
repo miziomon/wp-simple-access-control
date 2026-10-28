@@ -13,6 +13,7 @@ use WPSimpleAccessControl\Admin\BlockEditor\PanelRegistrar;
 use WPSimpleAccessControl\Admin\BlockEditor\RestController;
 use WPSimpleAccessControl\Admin\BlockEditor\RuleSynchronizer;
 use WPSimpleAccessControl\Admin\Logs\LogsPage;
+use WPSimpleAccessControl\Admin\Settings\SettingsPage;
 use WPSimpleAccessControl\Blocks\BlockVisibility;
 use WPSimpleAccessControl\Blocks\ExcerptGuard;
 use WPSimpleAccessControl\Blocks\TeaserRenderer;
@@ -224,8 +225,14 @@ final class Plugin {
 
 		$this->container->get( LogRetention::class )->register();
 
+		$this->container->set(
+			SettingsPage::class,
+			static fn( Container $c ): SettingsPage => new SettingsPage( $c->get( Settings::class ) )
+		);
+
 		if ( is_admin() ) {
 			$this->container->get( LogsPage::class )->register();
+			$this->container->get( SettingsPage::class )->register();
 		}
 
 		// Carica le traduzioni del plugin.
