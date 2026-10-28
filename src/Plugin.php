@@ -12,11 +12,17 @@ namespace WPSimpleAccessControl;
 use WPSimpleAccessControl\Admin\BlockEditor\PanelRegistrar;
 use WPSimpleAccessControl\Admin\BlockEditor\RestController;
 use WPSimpleAccessControl\Admin\BlockEditor\RuleSynchronizer;
+use WPSimpleAccessControl\Domain\AccessPolicy;
+use WPSimpleAccessControl\Frontend\CacheHeaders;
+use WPSimpleAccessControl\Frontend\Gate;
+use WPSimpleAccessControl\Frontend\LoginHandler;
+use WPSimpleAccessControl\Frontend\LoginRenderer;
 use WPSimpleAccessControl\Infrastructure\Container;
 use WPSimpleAccessControl\Infrastructure\Database\Migrations;
 use WPSimpleAccessControl\Infrastructure\Database\Schema;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessLogRepository;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessRuleRepository;
+use WPSimpleAccessControl\Support\Settings;
 
 /**
  * Punto di ingresso: registra i servizi del plugin.
@@ -108,6 +114,32 @@ final class Plugin {
 		$this->container->get( PanelRegistrar::class )->register();
 		$this->container->get( RestController::class )->register();
 		$this->container->get( RuleSynchronizer::class )->register();
+
+		// Frontend: gate dei contenuti, form di login e header anti-cache.
+		$this->container->set( Settings::class, static fn(): Settings => new Settings() );
+		$this->container->set( AccessPolicy::class, static fn(): AccessPolicy => new AccessPolicy() );
+		$this->container->set( CacheHeaders::class, static fn(): CacheHeaders => new CacheHeaders() );
+		$this->container->set(
+			LoginRenderer::class,
+			static fn( Container $c ): LoginRenderer => new LoginRenderer( $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			LoginHandler::class,
+			static fn( Container $c ): LoginHandler => new LoginHandler( $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			Gate::class,
+			static fn( Container $c ): Gate => new Gate(
+				$c->get( AccessRuleRepository::class ),
+				$c->get( AccessPolicy::class ),
+				$c->get( LoginRenderer::class ),
+				$c->get( CacheHeaders::class )
+			)
+		);
+
+		$this->container->get( CacheHeaders::class )->register();
+		$this->container->get( LoginHandler::class )->register();
+		$this->container->get( Gate::class )->register();
 
 		// Carica le traduzioni del plugin.
 		add_action( 'init', array( $this, 'load_textdomain' ) );

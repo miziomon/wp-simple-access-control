@@ -1,0 +1,12 @@
+// Variabili condivise dagli stili del frontend.
+// Ogni valore è esposto come custom property CSS (--wpsac-*) così un tema
+// può personalizzare l'aspetto senza ricompilare gli SCSS.
+
+$wpsac-accent: #2563eb;
+$wpsac-accent-contrast: #fff;
+$wpsac-text: inherit;
+$wpsac-border: #c3c4c7;
+$wpsac-error-bg: #fcf0f1;
+$wpsac-error-text: #8a2424;
+$wpsac-radius: 4px;
+$wpsac-max-width: 28rem;

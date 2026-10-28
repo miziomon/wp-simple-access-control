@@ -1,0 +1,107 @@
+// Blocco BEM: .wpsac-login
+// Form di login mostrato al posto di un contenuto protetto.
+// Elementi: __wrapper, __message, __error, __form, __field, __label, __input,
+//           __button, __links, __link.
+// Modificatori: __field--remember, __field--submit, __label--inline.
+// Dipendenze: _variables.scss
+
+@use "variables" as *;
+
+.wpsac-login {
+	--wpsac-accent: #{$wpsac-accent};
+	--wpsac-accent-contrast: #{$wpsac-accent-contrast};
+	--wpsac-border: #{$wpsac-border};
+	--wpsac-error-bg: #{$wpsac-error-bg};
+	--wpsac-error-text: #{$wpsac-error-text};
+	--wpsac-radius: #{$wpsac-radius};
+
+	box-sizing: border-box;
+	max-width: $wpsac-max-width;
+	margin: 2rem auto;
+	padding: 0 1rem;
+	color: $wpsac-text;
+
+	&__wrapper {
+		padding: 2rem 0;
+	}
+
+	&__message {
+		margin: 0 0 1.25rem;
+	}
+
+	&__error {
+		margin: 0 0 1.25rem;
+		padding: 0.75rem 1rem;
+		border-left: 4px solid var(--wpsac-error-text);
+		border-radius: var(--wpsac-radius);
+		background: var(--wpsac-error-bg);
+		color: var(--wpsac-error-text);
+	}
+
+	&__field {
+		margin: 0 0 1rem;
+
+		&--remember {
+			margin-bottom: 1.25rem;
+		}
+
+		&--submit {
+			margin-bottom: 0;
+		}
+	}
+
+	&__label {
+		display: block;
+		margin-bottom: 0.25rem;
+		font-weight: 600;
+
+		&--inline {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			font-weight: 400;
+		}
+	}
+
+	&__input {
+		box-sizing: border-box;
+		width: 100%;
+		padding: 0.6rem 0.75rem;
+		border: 1px solid var(--wpsac-border);
+		border-radius: var(--wpsac-radius);
+		font: inherit;
+
+		&:focus-visible {
+			outline: 2px solid var(--wpsac-accent);
+			outline-offset: 1px;
+		}
+	}
+
+	&__button {
+		padding: 0.65rem 1.5rem;
+		border: 0;
+		border-radius: var(--wpsac-radius);
+		background: var(--wpsac-accent);
+		color: var(--wpsac-accent-contrast);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+
+		&:hover,
+		&:focus-visible {
+			filter: brightness(0.92);
+		}
+	}
+
+	&__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.25rem;
+		margin: 1.25rem 0 0;
+		font-size: 0.9em;
+	}
+
+	&__link {
+		color: var(--wpsac-accent);
+	}
+}

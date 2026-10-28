@@ -1,1 +1,4 @@
-// Entry point CSS del frontend: importa i blocchi BEM (form di login, teaser).
+// Entry point CSS del frontend: raccoglie i blocchi BEM.
+// Ogni blocco ha il suo file; il teaser dei blocchi arriva allo step 5.
+
+@use "login-form";
