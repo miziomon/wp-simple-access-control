@@ -1,0 +1,70 @@
+// Blocchi BEM della pagina "Access log":
+// .wpsac-logs-filters, .wpsac-logs-table, .wpsac-badge.
+// Elementi: .wpsac-logs-filters__field, __actions; .wpsac-logs-table__muted.
+// Modificatori: .wpsac-badge--success, --warning, --danger.
+// Nessuna dipendenza: usa i colori dell'admin di WordPress.
+
+.wpsac-logs-filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 0 16px;
+	margin: 12px 0;
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		margin: 0 0 8px;
+	}
+
+	&__actions {
+		display: flex;
+		gap: 6px;
+		margin: 0 0 8px;
+	}
+}
+
+.wpsac-logs-table {
+
+	.column-created_at {
+		width: 12em;
+	}
+
+	.column-ip {
+		width: 10em;
+	}
+
+	.column-outcome {
+		width: 12em;
+	}
+
+	&__muted {
+		color: #646970;
+	}
+}
+
+.wpsac-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.6;
+	white-space: nowrap;
+
+	&--success {
+		background: #edfaef;
+		color: #00450c;
+	}
+
+	&--warning {
+		background: #fcf9e8;
+		color: #614200;
+	}
+
+	&--danger {
+		background: #fcf0f1;
+		color: #8a2424;
+	}
+}

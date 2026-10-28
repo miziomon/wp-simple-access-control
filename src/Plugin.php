@@ -12,6 +12,7 @@ namespace WPSimpleAccessControl;
 use WPSimpleAccessControl\Admin\BlockEditor\PanelRegistrar;
 use WPSimpleAccessControl\Admin\BlockEditor\RestController;
 use WPSimpleAccessControl\Admin\BlockEditor\RuleSynchronizer;
+use WPSimpleAccessControl\Admin\Logs\LogsPage;
 use WPSimpleAccessControl\Blocks\BlockVisibility;
 use WPSimpleAccessControl\Blocks\ExcerptGuard;
 use WPSimpleAccessControl\Blocks\TeaserRenderer;
@@ -30,6 +31,7 @@ use WPSimpleAccessControl\Infrastructure\Database\Schema;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessLogRepository;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessRuleRepository;
 use WPSimpleAccessControl\Logging\AccessLogger;
+use WPSimpleAccessControl\Logging\LogRetention;
 use WPSimpleAccessControl\Security\IpResolver;
 use WPSimpleAccessControl\Security\LoginRateLimiter;
 use WPSimpleAccessControl\Support\Settings;
@@ -209,6 +211,22 @@ final class Plugin {
 
 		$this->container->get( BlockVisibility::class )->register();
 		$this->container->get( ExcerptGuard::class )->register();
+
+		// Registro accessi: pulizia periodica (retention) e pagina di consultazione in admin.
+		$this->container->set(
+			LogRetention::class,
+			static fn( Container $c ): LogRetention => new LogRetention( $c->get( AccessLogRepository::class ), $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			LogsPage::class,
+			static fn( Container $c ): LogsPage => new LogsPage( $c->get( AccessLogRepository::class ) )
+		);
+
+		$this->container->get( LogRetention::class )->register();
+
+		if ( is_admin() ) {
+			$this->container->get( LogsPage::class )->register();
+		}
 
 		// Carica le traduzioni del plugin.
 		add_action( 'init', array( $this, 'load_textdomain' ) );

@@ -51,6 +51,9 @@ require_once $wpsac_autoload;
 // Attivazione: crea le tabelle (in multisite anche network-wide, su tutti i siti).
 register_activation_hook( WPSAC_PLUGIN_FILE, array( \WPSimpleAccessControl\Infrastructure\Database\Schema::class, 'activate' ) );
 
+// Disattivazione: rimuove l'evento di pulizia periodica del registro.
+register_deactivation_hook( WPSAC_PLUGIN_FILE, array( \WPSimpleAccessControl\Logging\LogRetention::class, 'unschedule' ) );
+
 // Avvio del plugin dopo il caricamento di tutti i plugin.
 add_action(
 	'plugins_loaded',
