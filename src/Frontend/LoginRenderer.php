@@ -59,7 +59,7 @@ class LoginRenderer {
 		// Il contenuto è negato: 403, così i motori di ricerca non lo indicizzano come pagina valida.
 		status_header( 403 );
 
-		$this->enqueue_styles();
+		Assets::enqueue();
 
 		$form = Template::render( 'login-form', $this->build_context( $reason, $rule, $post ) );
 
@@ -72,23 +72,6 @@ class LoginRenderer {
 		echo '<main class="wpsac-login__wrapper">' . $form . '</main>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML già escapato dal template.
 		get_footer();
 		exit;
-	}
-
-	/**
-	 * Carica il CSS del frontend (solo se la build esiste).
-	 *
-	 * @return void
-	 */
-	private function enqueue_styles(): void {
-		$asset_file = WPSAC_PLUGIN_DIR . 'build/frontend.asset.php';
-
-		if ( ! is_readable( $asset_file ) || ! is_readable( WPSAC_PLUGIN_DIR . 'build/frontend.css' ) ) {
-			return;
-		}
-
-		$asset = require $asset_file;
-
-		wp_enqueue_style( 'wpsac-frontend', WPSAC_PLUGIN_URL . 'build/frontend.css', array(), $asset['version'] );
 	}
 
 	/**

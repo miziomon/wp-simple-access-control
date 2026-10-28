@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace WPSimpleAccessControl\Blocks;
 
 use WPSimpleAccessControl\Domain\AccessPolicy;
+use WPSimpleAccessControl\Frontend\Assets;
 use WPSimpleAccessControl\Support\Settings;
 
 /**
@@ -79,6 +80,9 @@ class TeaserRenderer {
 		$html = str_replace( '{login_url}', $login_url, $html );
 
 		$html = '<div class="wpsac-teaser">' . wp_kses_post( wpautop( $html ) ) . '</div>';
+
+		// Il teaser ha uno stile proprio: lo carica solo la pagina che lo mostra.
+		Assets::enqueue();
 
 		/**
 		 * Filtra l'HTML del teaser mostrato al posto di un blocco riservato.

@@ -26,6 +26,13 @@ class AccessRuleRepository {
 	public const SHADOW_META_KEY = '_wpsac_protected';
 
 	/**
+	 * Cache per richiesta dell'elenco delle regole attive (null = non ancora caricato).
+	 *
+	 * @var array<int,AccessRule>|null
+	 */
+	private ?array $enabled_cache = null;
+
+	/**
 	 * Cerca la regola di un contenuto.
 	 *
 	 * @param int $post_id ID del contenuto.
@@ -76,6 +83,8 @@ class AccessRuleRepository {
 			$result             = $wpdb->insert( $table, $data, array( '%d', '%s', '%s', '%s', '%d', '%s' ) );
 		}
 
+		$this->enabled_cache = null;
+
 		if ( false === $result ) {
 			return false;
 		}
@@ -96,9 +105,40 @@ class AccessRuleRepository {
 
 		$result = $wpdb->delete( Schema::rules_table(), array( 'post_id' => $post_id ), array( '%d' ) );
 
+		$this->enabled_cache = null;
+
 		delete_post_meta( $post_id, self::SHADOW_META_KEY );
 
 		return false !== $result;
+	}
+
+	/**
+	 * Tutte le regole con protezione attiva, indicizzate per ID del contenuto.
+	 *
+	 * Una sola query per richiesta: serve a REST, feed e archivi, che altrimenti
+	 * dovrebbero interrogare il database per ogni contenuto elencato.
+	 *
+	 * @return array<int,AccessRule>
+	 */
+	public function find_enabled(): array {
+		if ( null !== $this->enabled_cache ) {
+			return $this->enabled_cache;
+		}
+
+		global $wpdb;
+
+		$table = Schema::rules_table();
+
+		$rows = $wpdb->get_results( "SELECT id, post_id, enabled, roles, login_message FROM {$table} WHERE enabled = 1", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- nome tabella interno, nessun input.
+
+		$this->enabled_cache = array();
+
+		foreach ( (array) $rows as $row ) {
+			$rule                                  = $this->hydrate( $row );
+			$this->enabled_cache[ $rule->post_id ] = $rule;
+		}
+
+		return $this->enabled_cache;
 	}
 
 	/**

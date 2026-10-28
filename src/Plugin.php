@@ -17,9 +17,13 @@ use WPSimpleAccessControl\Blocks\ExcerptGuard;
 use WPSimpleAccessControl\Blocks\TeaserRenderer;
 use WPSimpleAccessControl\Domain\AccessPolicy;
 use WPSimpleAccessControl\Frontend\CacheHeaders;
+use WPSimpleAccessControl\Frontend\ContentAccess;
+use WPSimpleAccessControl\Frontend\FeedGate;
 use WPSimpleAccessControl\Frontend\Gate;
 use WPSimpleAccessControl\Frontend\LoginHandler;
 use WPSimpleAccessControl\Frontend\LoginRenderer;
+use WPSimpleAccessControl\Frontend\LoopGate;
+use WPSimpleAccessControl\Frontend\RestGate;
 use WPSimpleAccessControl\Infrastructure\Container;
 use WPSimpleAccessControl\Infrastructure\Database\Migrations;
 use WPSimpleAccessControl\Infrastructure\Database\Schema;
@@ -160,9 +164,30 @@ final class Plugin {
 			)
 		);
 
+		// REST API, feed e archivi: gli stessi contenuti nascosti dal gate non devono trapelare da qui.
+		$this->container->set(
+			ContentAccess::class,
+			static fn( Container $c ): ContentAccess => new ContentAccess( $c->get( AccessRuleRepository::class ), $c->get( AccessPolicy::class ) )
+		);
+		$this->container->set(
+			RestGate::class,
+			static fn( Container $c ): RestGate => new RestGate( $c->get( ContentAccess::class ) )
+		);
+		$this->container->set(
+			FeedGate::class,
+			static fn( Container $c ): FeedGate => new FeedGate( $c->get( ContentAccess::class ), $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			LoopGate::class,
+			static fn( Container $c ): LoopGate => new LoopGate( $c->get( ContentAccess::class ) )
+		);
+
 		$this->container->get( CacheHeaders::class )->register();
 		$this->container->get( LoginHandler::class )->register();
 		$this->container->get( Gate::class )->register();
+		$this->container->get( RestGate::class )->register();
+		$this->container->get( FeedGate::class )->register();
+		$this->container->get( LoopGate::class )->register();
 
 		// Visibilità per singolo blocco, teaser e protezione degli estratti automatici.
 		$this->container->set(
