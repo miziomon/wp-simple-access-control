@@ -1,0 +1,477 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Simple Access Control 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/miziomon/wp-simple-access-control/issues\n"
+"Last-Translator: Maurizio Pelizzone <maurizio@mavida.com>\n"
+"Language-Team: Italiano\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-28T10:58:00+00:00\n"
+"PO-Revision-Date: 2026-10-28 12:00+0000\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wp-simple-access-control\n"
+
+#. Plugin Name of the plugin
+#: wp-simple-access-control.php
+msgid "WP Simple Access Control"
+msgstr "WP Simple Access Control"
+
+#. Plugin URI of the plugin
+#: wp-simple-access-control.php
+msgid "https://github.com/miziomon/wp-simple-access-control"
+msgstr "https://github.com/miziomon/wp-simple-access-control"
+
+#. Description of the plugin
+#: wp-simple-access-control.php
+msgid "Restrict access to single contents and to single blocks by user role, with an inline login form and an access log."
+msgstr "Limita l'accesso a singoli contenuti e a singoli blocchi in base al ruolo utente, con form di login inline e registro degli accessi."
+
+#. Author of the plugin
+#: wp-simple-access-control.php
+msgid "Maurizio Pelizzone"
+msgstr "Maurizio Pelizzone"
+
+#. Author URI of the plugin
+#: wp-simple-access-control.php
+msgid "https://maurizio.mavida.com"
+msgstr "https://maurizio.mavida.com"
+
+#: src/Admin/Logs/LogsListTable.php:64
+msgid "Date"
+msgstr "Data"
+
+#: src/Admin/Logs/LogsListTable.php:65
+msgid "Content"
+msgstr "Contenuto"
+
+#: src/Admin/Logs/LogsListTable.php:66
+msgid "User"
+msgstr "Utente"
+
+#: src/Admin/Logs/LogsListTable.php:67
+msgid "IP address"
+msgstr "Indirizzo IP"
+
+#: src/Admin/Logs/LogsListTable.php:68
+#: src/Admin/Logs/LogsPage.php:180
+msgid "Outcome"
+msgstr "Esito"
+
+#: src/Admin/Logs/LogsListTable.php:69
+msgid "User agent"
+msgstr "User agent"
+
+#: src/Admin/Logs/LogsListTable.php:94
+msgid "Delete"
+msgstr "Elimina"
+
+#: src/Admin/Logs/LogsListTable.php:142
+msgid "No log entries found."
+msgstr "Nessuna voce trovata nel registro."
+
+#. translators: %d: ID of a content or user that no longer exists.
+#: src/Admin/Logs/LogsListTable.php:179
+#: src/Admin/Logs/LogsListTable.php:200
+#, php-format
+msgid "#%d (deleted)"
+msgstr "#%d (eliminato)"
+
+#: src/Admin/Logs/LogsListTable.php:193
+msgid "Guest"
+msgstr "Ospite"
+
+#: src/Admin/Logs/LogsPage.php:74
+#: src/Admin/Logs/LogsPage.php:75
+msgid "Access log"
+msgstr "Registro accessi"
+
+#. translators: %d: number of deleted log entries.
+#: src/Admin/Logs/LogsPage.php:152
+#, php-format
+msgid "%d entry deleted."
+msgid_plural "%d entries deleted."
+msgstr[0] "%d voce eliminata."
+msgstr[1] "%d voci eliminate."
+
+#: src/Admin/Logs/LogsPage.php:177
+msgid "Content ID"
+msgstr "ID contenuto"
+
+#: src/Admin/Logs/LogsPage.php:178
+msgid "User ID"
+msgstr "ID utente"
+
+#: src/Admin/Logs/LogsPage.php:181
+msgid "All outcomes"
+msgstr "Tutti gli esiti"
+
+#: src/Admin/Logs/LogsPage.php:187
+msgid "From"
+msgstr "Dal"
+
+#: src/Admin/Logs/LogsPage.php:188
+msgid "To"
+msgstr "Al"
+
+#: src/Admin/Logs/LogsPage.php:191
+msgid "Filter"
+msgstr "Filtra"
+
+#: src/Admin/Logs/LogsPage.php:192
+msgid "Reset"
+msgstr "Azzera"
+
+#: src/Admin/Logs/LogsPage.php:196
+msgid "Export CSV"
+msgstr "Esporta CSV"
+
+#: src/Admin/Settings/SettingsPage.php:72
+msgid "Simple Access Control"
+msgstr "Simple Access Control"
+
+#: src/Admin/Settings/SettingsPage.php:73
+msgid "Access Control"
+msgstr "Controllo accessi"
+
+#: src/Admin/Settings/SettingsPage.php:89
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: src/Admin/Settings/SettingsPage.php:142
+msgid "Delete data on uninstall"
+msgstr "Elimina i dati alla disinstallazione"
+
+#: src/Admin/Settings/SettingsPage.php:156
+msgid "Login form"
+msgstr "Form di login"
+
+#: src/Admin/Settings/SettingsPage.php:157
+msgid "Security"
+msgstr "Sicurezza"
+
+#: src/Admin/Settings/SettingsPage.php:158
+msgid "Feeds"
+msgstr "Feed"
+
+#: src/Admin/Settings/SettingsPage.php:159
+msgid "Advanced"
+msgstr "Avanzate"
+
+#: src/Admin/Settings/SettingsPage.php:175
+msgid "Login form mode"
+msgstr "Modalità del form di login"
+
+#: src/Admin/Settings/SettingsPage.php:178
+msgid "Inline, inside the theme"
+msgstr "Inline, dentro il tema"
+
+#: src/Admin/Settings/SettingsPage.php:179
+msgid "Standalone page"
+msgstr "Pagina autonoma"
+
+#: src/Admin/Settings/SettingsPage.php:181
+msgid "Inline keeps the header and footer of your theme. The standalone page is a minimal, self-contained login page."
+msgstr "La modalità inline mantiene header e footer del tema. La pagina autonoma è una pagina di login minimale e indipendente dal tema."
+
+#: src/Admin/Settings/SettingsPage.php:185
+#: templates/login-form.php:70
+msgid "Remember me"
+msgstr "Ricordami"
+
+#: src/Admin/Settings/SettingsPage.php:187
+msgid "Show the \"Remember me\" checkbox."
+msgstr "Mostra la casella «Ricordami»."
+
+#: src/Admin/Settings/SettingsPage.php:191
+msgid "Lost password"
+msgstr "Password dimenticata"
+
+#: src/Admin/Settings/SettingsPage.php:193
+msgid "Show the \"Lost your password?\" link."
+msgstr "Mostra il link «Password dimenticata?»."
+
+#: src/Admin/Settings/SettingsPage.php:197
+msgid "Registration"
+msgstr "Registrazione"
+
+#: src/Admin/Settings/SettingsPage.php:199
+msgid "Show the \"Register\" link. It only appears when \"Anyone can register\" is also enabled in Settings > General."
+msgstr "Mostra il link «Registrati». Compare solo se in Impostazioni > Generali è attiva anche l'opzione «Chiunque può registrarsi»."
+
+#: src/Admin/Settings/SettingsPage.php:203
+msgid "Default login message"
+msgstr "Messaggio di login predefinito"
+
+#: src/Admin/Settings/SettingsPage.php:205
+msgid "Shown above the login form. A message set on a single content overrides it. Leave empty to use the built-in text."
+msgstr "Mostrato sopra il form di login. Un messaggio impostato su un singolo contenuto ha la precedenza. Lascia vuoto per usare il testo predefinito del plugin."
+
+#: src/Admin/Settings/SettingsPage.php:209
+msgid "Default block message"
+msgstr "Messaggio predefinito per i blocchi"
+
+#: src/Admin/Settings/SettingsPage.php:211
+msgid "Shown in place of a block restricted to logged-in users. Plain text; use [login]link text[/login] for a link to the login page. Leave empty to hide the block without a message."
+msgstr "Mostrato al posto di un blocco riservato agli utenti loggati. Solo testo semplice; usa [login]testo del link[/login] per inserire un link alla pagina di login. Lascia vuoto per nascondere il blocco senza alcun messaggio."
+
+#: src/Admin/Settings/SettingsPage.php:215
+msgid "Failed attempts allowed"
+msgstr "Tentativi falliti consentiti"
+
+#: src/Admin/Settings/SettingsPage.php:219
+msgid "After this many failed logins from the same IP, further attempts are refused. Set 0 to disable the limit."
+msgstr "Dopo questo numero di login falliti dallo stesso IP, i tentativi successivi vengono rifiutati. Imposta 0 per disattivare il limite."
+
+#: src/Admin/Settings/SettingsPage.php:223
+msgid "Counting window (seconds)"
+msgstr "Finestra di conteggio (secondi)"
+
+#: src/Admin/Settings/SettingsPage.php:227
+msgid "Failed attempts are counted within this time frame."
+msgstr "I tentativi falliti vengono contati all'interno di questo intervallo di tempo."
+
+#: src/Admin/Settings/SettingsPage.php:231
+msgid "Lockout duration (seconds)"
+msgstr "Durata del blocco (secondi)"
+
+#: src/Admin/Settings/SettingsPage.php:235
+msgid "How long an IP stays blocked once the limit is reached."
+msgstr "Per quanto tempo un IP resta bloccato una volta raggiunto il limite."
+
+#: src/Admin/Settings/SettingsPage.php:239
+msgid "Anonymize IP addresses"
+msgstr "Anonimizza gli indirizzi IP"
+
+#: src/Admin/Settings/SettingsPage.php:241
+msgid "Store IP addresses in the access log with the last part removed (/24 for IPv4, /64 for IPv6)."
+msgstr "Salva nel registro accessi gli indirizzi IP senza la parte finale (/24 per IPv4, /64 per IPv6)."
+
+#: src/Admin/Settings/SettingsPage.php:245
+msgid "Trust proxy headers"
+msgstr "Considera attendibili gli header del proxy"
+
+#: src/Admin/Settings/SettingsPage.php:247
+msgid "Read the visitor IP from X-Forwarded-For. Enable it only if your site is behind a proxy or CDN that sets this header: otherwise visitors can fake their IP and escape the login limit."
+msgstr "Legge l'IP del visitatore da X-Forwarded-For. Attivalo solo se il sito è dietro a un proxy o a una CDN che imposta questo header: altrimenti i visitatori possono falsificare il proprio IP ed eludere il limite di login."
+
+#: src/Admin/Settings/SettingsPage.php:251
+msgid "Protected contents in feeds"
+msgstr "Contenuti protetti nei feed"
+
+#: src/Admin/Settings/SettingsPage.php:253
+msgid "Show the excerpt with a \"Read more\" link. When off, the feed shows only title and link. The automatic excerpt reveals the first words of the content: write a manual excerpt for protected contents."
+msgstr "Mostra l'estratto con un link «Leggi tutto». Se disattivato, il feed mostra solo titolo e link. L'estratto automatico rivela le prime parole del contenuto: per i contenuti protetti conviene scrivere un estratto a mano."
+
+#: src/Admin/Settings/SettingsPage.php:257
+msgid "Keep the access log for (days)"
+msgstr "Conserva il registro accessi per (giorni)"
+
+#: src/Admin/Settings/SettingsPage.php:261
+msgid "Older entries are deleted automatically once a day. Set 0 to keep them forever."
+msgstr "Le voci più vecchie vengono eliminate automaticamente una volta al giorno. Imposta 0 per conservarle per sempre."
+
+#: src/Admin/Settings/SettingsPage.php:265
+msgid "Two-factor authentication"
+msgstr "Autenticazione a due fattori"
+
+#: src/Admin/Settings/SettingsPage.php:268
+msgid "Automatic (detect compatible plugins)"
+msgstr "Automatica (rileva i plugin compatibili)"
+
+#: src/Admin/Settings/SettingsPage.php:269
+msgid "Off"
+msgstr "Disattivata"
+
+#: src/Admin/Settings/SettingsPage.php:271
+msgid "The login form uses the standard WordPress authentication, so two-factor plugins work as they do on wp-login.php."
+msgstr "Il form di login usa l'autenticazione standard di WordPress, quindi i plugin a due fattori funzionano come su wp-login.php."
+
+#: src/Admin/Settings/SettingsPage.php:338
+msgid "Remove the plugin tables and settings when the plugin is deleted. By default your data is kept."
+msgstr "Rimuove le tabelle e le impostazioni del plugin quando il plugin viene eliminato. Per impostazione predefinita i dati vengono conservati."
+
+#: src/Admin/Settings/SettingsPage.php:395
+msgid "Protect a page, a post or a single block from the editor sidebar."
+msgstr "Proteggi una pagina, un articolo o un singolo blocco dalla barra laterale dell'editor."
+
+#: src/Admin/Settings/SettingsPage.php:397
+msgid "View the access log"
+msgstr "Vai al registro accessi"
+
+#: src/Domain/AccessOutcome.php:34
+msgid "Granted"
+msgstr "Consentito"
+
+#: src/Domain/AccessOutcome.php:35
+msgid "Denied (not logged in)"
+msgstr "Negato (non autenticato)"
+
+#: src/Domain/AccessOutcome.php:36
+msgid "Denied (wrong role)"
+msgstr "Negato (ruolo non ammesso)"
+
+#: src/Domain/AccessOutcome.php:37
+msgid "Denied (disabled)"
+msgstr "Negato (disattivato)"
+
+#: src/Domain/AccessOutcome.php:38
+msgid "Login successful"
+msgstr "Login riuscito"
+
+#: src/Domain/AccessOutcome.php:39
+msgid "Login failed"
+msgstr "Login fallito"
+
+#: src/Domain/AccessOutcome.php:40
+msgid "Login rate limited"
+msgstr "Login bloccato dal limite"
+
+#: src/Frontend/FeedGate.php:106
+msgid "Read more"
+msgstr "Leggi tutto"
+
+#. translators: %s: site name.
+#: src/Frontend/LoginRenderer.php:73
+#, php-format
+msgid "Log in - %s"
+msgstr "Accedi - %s"
+
+#: src/Frontend/LoginRenderer.php:163
+msgid "Your account is not allowed to view this content."
+msgstr "Il tuo account non è autorizzato a vedere questo contenuto."
+
+#: src/Frontend/LoginRenderer.php:166
+msgid "This content is reserved. Please log in to view it."
+msgstr "Questo contenuto è riservato. Accedi per visualizzarlo."
+
+#: src/Frontend/LoginRenderer.php:180
+msgid "Invalid username or password."
+msgstr "Nome utente o password non validi."
+
+#: src/Frontend/LoginRenderer.php:181
+msgid "Please enter your username and password."
+msgstr "Inserisci nome utente e password."
+
+#: src/Frontend/LoginRenderer.php:182
+msgid "The form has expired. Please try again."
+msgstr "Il modulo è scaduto. Riprova."
+
+#: src/Frontend/LoginRenderer.php:183
+msgid "Too many failed attempts. Please try again later."
+msgstr "Troppi tentativi falliti. Riprova più tardi."
+
+#: src/Frontend/LoopGate.php:95
+msgid "This content is reserved."
+msgstr "Questo contenuto è riservato."
+
+#: src/Frontend/LoopGate.php:97
+msgid "Log in to read more"
+msgstr "Accedi per leggere tutto"
+
+#: src/Frontend/RestGate.php:88
+msgid "You are not allowed to view this content."
+msgstr "Non sei autorizzato a vedere questo contenuto."
+
+#: templates/login-form.php:54
+msgid "Username or email address"
+msgstr "Nome utente o indirizzo email"
+
+#: templates/login-form.php:61
+msgid "Password"
+msgstr "Password"
+
+#: templates/login-form.php:76
+msgid "Log in"
+msgstr "Accedi"
+
+#: templates/login-form.php:83
+msgid "Lost your password?"
+msgstr "Password dimenticata?"
+
+#: templates/login-form.php:86
+msgid "Register"
+msgstr "Registrati"
+
+#: templates/login-form.php:93
+msgid "Log out and use another account"
+msgstr "Esci e usa un altro account"
+
+#: wp-simple-access-control.php:42
+msgid "WP Simple Access Control: dependencies are missing. Run \"composer install --no-dev\" in the plugin folder."
+msgstr "WP Simple Access Control: mancano le dipendenze. Esegui \"composer install --no-dev\" nella cartella del plugin."
+
+#: src/js/editor/blocks/BlockAccessControls.js:38
+#: src/js/editor/components/AccessPanel.js:48
+msgid "Access control"
+msgstr "Controllo accesso"
+
+#: src/js/editor/blocks/BlockAccessControls.js:43
+msgid "Visible to"
+msgstr "Visibile a"
+
+#: src/js/editor/blocks/BlockAccessControls.js:64
+msgid "No role selected: any logged-in user can see this block. Administrators always can."
+msgstr "Nessun ruolo selezionato: qualsiasi utente loggato può vedere questo blocco. Gli amministratori lo vedono sempre."
+
+#: src/js/editor/blocks/BlockAccessControls.js:76
+msgid "Show a message instead of the block"
+msgstr "Mostra un messaggio al posto del blocco"
+
+#: src/js/editor/blocks/BlockAccessControls.js:87
+msgid "Message"
+msgstr "Messaggio"
+
+#: src/js/editor/blocks/BlockAccessControls.js:91
+msgid "Plain text only. Use [login]link text[/login] to link to the login page."
+msgstr "Solo testo semplice. Usa [login]testo del link[/login] per inserire un link alla pagina di login."
+
+#: src/js/editor/blocks/constants.js:31
+msgid "Everyone"
+msgstr "Tutti"
+
+#: src/js/editor/blocks/constants.js:35
+msgid "Logged-in users"
+msgstr "Utenti loggati"
+
+#: src/js/editor/blocks/constants.js:39
+msgid "Logged-out visitors"
+msgstr "Visitatori non loggati"
+
+#: src/js/editor/blocks/constants.js:52
+msgid "Logged-out only"
+msgstr "Solo non loggati"
+
+#: src/js/editor/blocks/constants.js:54
+msgid "Logged-in only"
+msgstr "Solo loggati"
+
+#: src/js/editor/components/AccessPanel.js:53
+msgid "Restrict access"
+msgstr "Limita l'accesso"
+
+#: src/js/editor/components/AccessPanel.js:67
+msgid "No role selected: any logged-in user can view this content. Administrators always can."
+msgstr "Nessun ruolo selezionato: qualsiasi utente loggato può vedere questo contenuto. Gli amministratori lo vedono sempre."
+
+#: src/js/editor/components/AccessPanel.js:89
+msgid "View access log for this content"
+msgstr "Vedi il registro accessi di questo contenuto"
+
+#: src/js/editor/components/LoginMessageField.js:26
+msgid "Message above the login form"
+msgstr "Messaggio sopra il form di login"
+
+#: src/js/editor/components/LoginMessageField.js:27
+msgid "Optional. Overrides the default message."
+msgstr "Facoltativo. Sostituisce il messaggio predefinito."
+
+#: src/js/editor/components/RolesSelector.js:36
+msgid "No roles available."
+msgstr "Nessun ruolo disponibile."
+
+#: src/js/editor/components/RolesSelector.js:50
+msgid "Allowed roles"
+msgstr "Ruoli ammessi"
