@@ -12,6 +12,7 @@ namespace WPSimpleAccessControl\Frontend;
 use WPSimpleAccessControl\Domain\AccessOutcome;
 use WPSimpleAccessControl\Domain\AccessPolicy;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessRuleRepository;
+use WPSimpleAccessControl\Logging\AccessLogger;
 
 /**
  * Decide, per ogni pagina singola, se l'utente può vedere il contenuto o se
@@ -48,18 +49,27 @@ class Gate {
 	private CacheHeaders $cache;
 
 	/**
+	 * Registro accessi.
+	 *
+	 * @var AccessLogger
+	 */
+	private AccessLogger $logger;
+
+	/**
 	 * Costruttore.
 	 *
 	 * @param AccessRuleRepository $rules  Repository delle regole.
 	 * @param AccessPolicy         $policy Policy di accesso.
 	 * @param LoginRenderer        $login  Rendering del form di login.
 	 * @param CacheHeaders         $cache  Header anti-cache.
+	 * @param AccessLogger         $logger Registro accessi.
 	 */
-	public function __construct( AccessRuleRepository $rules, AccessPolicy $policy, LoginRenderer $login, CacheHeaders $cache ) {
+	public function __construct( AccessRuleRepository $rules, AccessPolicy $policy, LoginRenderer $login, CacheHeaders $cache, AccessLogger $logger ) {
 		$this->rules  = $rules;
 		$this->policy = $policy;
 		$this->login  = $login;
 		$this->cache  = $cache;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -99,6 +109,9 @@ class Gate {
 		$this->cache->apply();
 
 		$outcome = $this->policy->check( wp_get_current_user(), $rule->roles );
+
+		// Ogni richiesta a un contenuto protetto finisce nel registro, con il suo esito.
+		$this->logger->log( $post->ID, $outcome );
 
 		if ( AccessOutcome::GRANTED === $outcome ) {
 			return;

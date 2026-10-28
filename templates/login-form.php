@@ -46,6 +46,7 @@ $wpsac_uid = 'wpsac-login-' . (int) $args['post_id'];
 	<form class="wpsac-login__form" method="post" action="<?php echo esc_url( $args['action_url'] ); ?>">
 		<input type="hidden" name="action" value="<?php echo esc_attr( $args['action'] ); ?>" />
 		<input type="hidden" name="redirect_to" value="<?php echo esc_url( $args['redirect_to'] ); ?>" />
+		<input type="hidden" name="post_id" value="<?php echo (int) $args['post_id']; ?>" />
 		<?php wp_nonce_field( $args['nonce_action'], 'wpsac_nonce' ); ?>
 
 		<p class="wpsac-login__field">

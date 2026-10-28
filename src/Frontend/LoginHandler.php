@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace WPSimpleAccessControl\Frontend;
 
+use WPSimpleAccessControl\Domain\AccessOutcome;
+use WPSimpleAccessControl\Logging\AccessLogger;
+use WPSimpleAccessControl\Security\LoginRateLimiter;
 use WPSimpleAccessControl\Support\Settings;
 
 /**
@@ -38,12 +41,30 @@ class LoginHandler {
 	private Settings $settings;
 
 	/**
+	 * Registro accessi.
+	 *
+	 * @var AccessLogger
+	 */
+	private AccessLogger $logger;
+
+	/**
+	 * Limitazione dei tentativi di login.
+	 *
+	 * @var LoginRateLimiter
+	 */
+	private LoginRateLimiter $limiter;
+
+	/**
 	 * Costruttore.
 	 *
-	 * @param Settings $settings Impostazioni globali.
+	 * @param Settings         $settings Impostazioni globali.
+	 * @param AccessLogger     $logger   Registro accessi.
+	 * @param LoginRateLimiter $limiter  Limitazione dei tentativi di login.
 	 */
-	public function __construct( Settings $settings ) {
+	public function __construct( Settings $settings, AccessLogger $logger, LoginRateLimiter $limiter ) {
 		$this->settings = $settings;
+		$this->logger   = $logger;
+		$this->limiter  = $limiter;
 	}
 
 	/**
@@ -64,6 +85,9 @@ class LoginHandler {
 	public function handle(): void {
 		$redirect_to = $this->requested_redirect();
 
+		// Contenuto da cui arriva il login: serve solo al registro accessi.
+		$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- il nonce viene verificato subito sotto, prima di agire sui dati.
+
 		// 1. Nonce.
 		$nonce = isset( $_POST['wpsac_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wpsac_nonce'] ) ) : '';
 
@@ -79,7 +103,13 @@ class LoginHandler {
 			$this->back_with_error( $redirect_to, 'empty' );
 		}
 
-		// 3. Autenticazione: wp_signon imposta i cookie e fa scattare `wp_login` (e quindi il 2FA, se attivo).
+		// 3. Rate limit: dopo troppi errori l'IP è bloccato e le credenziali non vengono nemmeno provate.
+		if ( $this->limiter->is_limited() ) {
+			$this->logger->log( $post_id, AccessOutcome::LOGIN_RATE_LIMITED, 0 );
+			$this->back_with_error( $redirect_to, 'rate_limited' );
+		}
+
+		// 4. Autenticazione: wp_signon imposta i cookie e fa scattare `wp_login` (e quindi il 2FA, se attivo).
 		$user = wp_signon(
 			array(
 				'user_login'    => $login,
@@ -89,10 +119,15 @@ class LoginHandler {
 		);
 
 		if ( is_wp_error( $user ) ) {
+			$this->limiter->record_failure();
+			$this->logger->log( $post_id, AccessOutcome::LOGIN_FAILED, 0 );
 			$this->back_with_error( $redirect_to, 'failed' );
 		}
 
-		// 4. Torna al contenuto originale.
+		$this->limiter->clear();
+		$this->logger->log( $post_id, AccessOutcome::LOGIN_SUCCESS, $user->ID );
+
+		// 5. Torna al contenuto originale.
 		wp_safe_redirect( $redirect_to );
 		exit;
 	}

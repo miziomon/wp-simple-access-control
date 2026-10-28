@@ -25,6 +25,9 @@ use WPSimpleAccessControl\Infrastructure\Database\Migrations;
 use WPSimpleAccessControl\Infrastructure\Database\Schema;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessLogRepository;
 use WPSimpleAccessControl\Infrastructure\Repository\AccessRuleRepository;
+use WPSimpleAccessControl\Logging\AccessLogger;
+use WPSimpleAccessControl\Security\IpResolver;
+use WPSimpleAccessControl\Security\LoginRateLimiter;
 use WPSimpleAccessControl\Support\Settings;
 
 /**
@@ -127,8 +130,24 @@ final class Plugin {
 			static fn( Container $c ): LoginRenderer => new LoginRenderer( $c->get( Settings::class ) )
 		);
 		$this->container->set(
+			IpResolver::class,
+			static fn( Container $c ): IpResolver => new IpResolver( $c->get( Settings::class ) )
+		);
+		$this->container->set(
+			LoginRateLimiter::class,
+			static fn( Container $c ): LoginRateLimiter => new LoginRateLimiter( $c->get( Settings::class ), $c->get( IpResolver::class ) )
+		);
+		$this->container->set(
+			AccessLogger::class,
+			static fn( Container $c ): AccessLogger => new AccessLogger( $c->get( AccessLogRepository::class ), $c->get( IpResolver::class ) )
+		);
+		$this->container->set(
 			LoginHandler::class,
-			static fn( Container $c ): LoginHandler => new LoginHandler( $c->get( Settings::class ) )
+			static fn( Container $c ): LoginHandler => new LoginHandler(
+				$c->get( Settings::class ),
+				$c->get( AccessLogger::class ),
+				$c->get( LoginRateLimiter::class )
+			)
 		);
 		$this->container->set(
 			Gate::class,
@@ -136,7 +155,8 @@ final class Plugin {
 				$c->get( AccessRuleRepository::class ),
 				$c->get( AccessPolicy::class ),
 				$c->get( LoginRenderer::class ),
-				$c->get( CacheHeaders::class )
+				$c->get( CacheHeaders::class ),
+				$c->get( AccessLogger::class )
 			)
 		);
 
