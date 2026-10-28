@@ -50,6 +50,28 @@ final class PanelRegistrar {
 		// Priorità 20: dopo la registrazione dei CPT (di solito su init, priorità 10).
 		add_action( 'init', array( $this, 'register_meta' ), 20 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_assets' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_canvas_assets' ) );
+	}
+
+	/**
+	 * Carica lo stile dell'indicatore dentro il canvas dell'editor.
+	 *
+	 * Il canvas è un iframe: gli stili aggiunti con `enqueue_block_editor_assets` restano fuori
+	 * e non raggiungono i blocchi. Quelli del contenuto vanno caricati con `enqueue_block_assets`.
+	 *
+	 * @return void
+	 */
+	public function enqueue_canvas_assets(): void {
+		$asset_file = WPSAC_PLUGIN_DIR . 'build/editor-canvas.asset.php';
+
+		// Solo nell'editor: sul frontend l'indicatore non serve.
+		if ( ! is_admin() || ! is_readable( $asset_file ) || ! is_readable( WPSAC_PLUGIN_DIR . 'build/editor-canvas.css' ) ) {
+			return;
+		}
+
+		$asset = require $asset_file;
+
+		wp_enqueue_style( 'wpsac-editor-canvas', WPSAC_PLUGIN_URL . 'build/editor-canvas.css', array(), $asset['version'] );
 	}
 
 	/**

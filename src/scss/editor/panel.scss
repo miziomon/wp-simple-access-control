@@ -6,6 +6,9 @@
 .wpsac-panel {
 
 	&__roles {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 		margin: 16px 0 0;
 		padding: 0;
 		border: 0;

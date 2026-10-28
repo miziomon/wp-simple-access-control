@@ -8,8 +8,8 @@
 		"node": ">=22.22.2"
 	},
 	"scripts": {
-		"build": "wp-scripts build editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss admin=./src/scss/admin/index.scss",
-		"start": "wp-scripts start editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss admin=./src/scss/admin/index.scss",
+		"build": "wp-scripts build editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss admin=./src/scss/admin/index.scss editor-canvas=./src/scss/editor/block-indicator.scss",
+		"start": "wp-scripts start editor=./src/js/editor/index.js frontend=./src/scss/frontend/index.scss admin=./src/scss/admin/index.scss editor-canvas=./src/scss/editor/block-indicator.scss",
 		"lint:js": "wp-scripts lint-js src/js",
 		"lint:css": "wp-scripts lint-style \"src/scss/**/*.scss\"",
 		"format": "wp-scripts format src/js src/scss",

@@ -9,6 +9,5 @@ import './store';
 import './blocks';
 import AccessPanel from './components/AccessPanel';
 import '../../scss/editor/panel.scss';
-import '../../scss/editor/block-indicator.scss';
 
 registerPlugin( 'wpsac-access-control', { render: AccessPanel } );
